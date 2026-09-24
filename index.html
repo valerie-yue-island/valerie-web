@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F2F2F2">
+<title>Valerie (Yue) Deng — Data Engineer</title>
+<style>
+:root{--paper:#f2f2f2;--red:#c8102e;--ink:#0a0a0a;--ease:cubic-bezier(.22,1,.36,1)}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--paper);color:var(--ink)}body{font-family:system-ui,sans-serif;overflow:hidden}button,a{-webkit-tap-highlight-color:transparent}button:focus-visible,a:focus-visible{outline:3px solid var(--red);outline-offset:4px}
+#resume{position:fixed;inset:0;display:grid;place-items:center;visibility:hidden;opacity:0;transition:opacity 500ms ease}#resume.ready{visibility:visible;opacity:1}
+#stage{position:relative;width:min(100vw,calc(100vh * 1672 / 941));aspect-ratio:1672/941;overflow:hidden;isolation:isolate}
+.frame{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;opacity:0;transform:scale(1);pointer-events:none;user-select:none;-webkit-user-drag:none;will-change:opacity,transform}
+.frame[data-state="00"]{opacity:1}.hotspot{position:absolute;z-index:3;border:0;background:transparent;padding:0;cursor:pointer;transform:rotate(-8deg);border-radius:12%;touch-action:manipulation}
+.hotspot:focus-visible{outline:3px solid var(--red);outline-offset:2px}body.debug .hotspot{outline:2px dashed var(--red);background:rgba(200,16,46,.13)}
+#motion{position:absolute;inset:0;width:100%;height:100%;object-fit:fill;z-index:2;display:none;pointer-events:none}
+#intro{position:fixed;inset:0;z-index:10;display:grid;place-items:center;background:var(--paper);transition:opacity 800ms var(--ease),transform 800ms var(--ease);transform-origin:center;overflow:hidden}
+#intro.leave{opacity:0;transform:scale(1.025);pointer-events:none}#intro[hidden]{display:none}#introVideo{width:100%;height:100%;object-fit:contain;background:var(--paper)}
+.intro-button{position:absolute;z-index:2;color:var(--ink);font:700 clamp(12px,1.4vw,18px)/1 monospace;letter-spacing:.14em;border:1px solid currentColor;background:var(--paper);padding:14px 20px;cursor:pointer}
+#skip{right:max(24px,3vw);bottom:max(24px,4vh);background:rgba(242,242,242,.85);border:0}#enter{display:none;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--red);color:white;border:0;padding:20px 28px;box-shadow:5px 5px 0 var(--ink)}
+#modalOverlay{position:fixed;inset:0;z-index:20;display:grid;place-items:center;padding:clamp(12px,4vw,48px);background:rgba(10,10,10,.65);opacity:0;visibility:hidden;transition:opacity 240ms ease,visibility 240ms;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}#modalOverlay.open{opacity:1;visibility:visible}
+#ticket{position:relative;display:flex;flex-direction:column;width:min(700px,100%);max-height:min(82vh,820px);background:var(--paper);border:3px solid var(--ink);box-shadow:12px 12px 0 var(--red);overflow:hidden;transform-origin:center;will-change:transform,opacity;outline:none}
+#ticket::before,#ticket::after{content:"";position:absolute;top:45%;width:30px;height:60px;background:#222;border:3px solid var(--ink);border-radius:50%;z-index:2}#ticket::before{left:-19px}#ticket::after{right:-19px}
+.ticket-head{display:flex;align-items:flex-start;gap:18px;padding:30px 36px 16px;border-bottom:2px solid var(--ink);flex:none}.ticket-no{font:900 clamp(60px,10vw,96px)/.85 Impact,"Arial Black",system-ui,sans-serif;color:var(--red)}.ticket-titles{min-width:0;padding-top:4px}.ticket-titles h2{font:900 clamp(25px,5vw,43px)/.97 Impact,"Arial Black",system-ui,sans-serif;letter-spacing:.01em;margin:0 0 8px}.ticket-titles p{font:12px/1.4 monospace;letter-spacing:.08em;text-transform:uppercase;margin:0}.dots{position:absolute;right:75px;top:33px;width:36px;height:36px;background-image:radial-gradient(var(--ink) 2px,transparent 2.5px);background-size:9px 9px}
+#close{position:absolute;right:18px;top:15px;z-index:4;font:36px/1 monospace;background:transparent;border:0;cursor:pointer;color:var(--ink);width:42px;height:42px}#detail{overflow:auto;overscroll-behavior:contain;padding:22px 36px 32px;font:14px/1.5 monospace;min-height:0}#detail h3{font:900 20px/1.2 Impact,"Arial Black",system-ui;margin:0 0 7px}#detail p{margin:0 0 9px}.entry{padding:17px 0;border-bottom:1px solid #aaa}.entry:first-child{padding-top:0}.entry:last-child{border:0}.meta{color:#555;font-size:12px}.entry ul{padding-left:19px;margin:10px 0 0}.entry li{margin:4px 0}.chips{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 5px}.chip{border:1px solid var(--ink);padding:5px 9px;font-size:12px;background:#fff}.action{display:inline-block;color:var(--paper);background:var(--ink);text-decoration:none;border:0;padding:7px 12px;font:12px monospace;cursor:pointer;margin-top:6px}.action[aria-disabled="true"]{opacity:.5;pointer-events:none}.contact-line{display:flex;gap:12px;align-items:center;flex-wrap:wrap;overflow-wrap:anywhere}.contact-line a{color:var(--red)}.ticket-foot{height:55px;flex:none;border-top:2px dashed var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0 36px;font:11px monospace}.barcode{height:28px;width:135px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 9px,var(--ink) 9px 13px,transparent 13px 16px)}
+.detail-tabs{display:flex;gap:0;border-bottom:2px solid var(--ink);padding:0 36px;flex:none}.detail-tabs[hidden]{display:none}.detail-tabs button{border:0;border-bottom:4px solid transparent;margin-bottom:-2px;padding:14px 17px 10px;background:transparent;color:var(--ink);font:700 12px/1 monospace;letter-spacing:.08em;cursor:pointer}.detail-tabs button[aria-pressed="true"]{color:var(--red);border-bottom-color:var(--red)}
+#copyEmail{margin-top:0}
+@media(max-width:540px){.ticket-head{padding:24px 24px 14px;gap:12px}.dots{display:none}#detail{padding:18px 24px 26px}.detail-tabs{padding:0 24px}.detail-tabs button{padding:13px 11px 9px;font-size:11px}.ticket-foot{padding:0 24px}#ticket{box-shadow:6px 6px 0 var(--red)}}
+@media(prefers-reduced-motion:reduce){#intro,#resume,#modalOverlay{transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<main id="resume" aria-label="Valerie Deng interactive resume">
+  <div id="stage">
+    <img class="frame" data-state="00" src="assets/frame-00.webp" alt="Valerie Deng resume overview" draggable="false">
+    <img class="frame" data-state="01" src="assets/frame-01.webp" alt="" aria-hidden="true" draggable="false">
+    <img class="frame" data-state="02" src="assets/frame-02.webp" alt="" aria-hidden="true" draggable="false">
+    <img class="frame" data-state="03" src="assets/frame-03.webp" alt="" aria-hidden="true" draggable="false">
+    <img class="frame" data-state="04" src="assets/frame-04.webp" alt="" aria-hidden="true" draggable="false">
+    <video id="motion" muted playsinline preload="auto" aria-hidden="true"></video>
+    <button class="hotspot" data-state="01" aria-label="View 01 work experience"></button>
+    <button class="hotspot" data-state="02" aria-label="View 02 selected engineering projects"></button>
+    <button class="hotspot" data-state="03" aria-label="View 03 technical skills"></button>
+    <button class="hotspot" data-state="04" aria-label="View 04 contact details"></button>
+  </div>
+</main>
+<div id="intro" aria-label="Intro video">
+  <video id="introVideo" muted autoplay playsinline preload="auto" src="assets/intro.mp4"></video>
+  <button id="enter" class="intro-button">CLICK TO ENTER</button>
+  <button id="skip" class="intro-button">SKIP ›</button>
+</div>
+<div id="modalOverlay" aria-hidden="true">
+  <section id="ticket" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
+    <button id="close" aria-label="Close details">×</button>
+    <div class="ticket-head"><span id="modalNo" class="ticket-no"></span><div class="ticket-titles"><h2 id="modalTitle"></h2><p id="modalSubtitle"></p></div><span class="dots" aria-hidden="true"></span></div>
+    <div id="detailTabs" class="detail-tabs" role="group" aria-label="Career sections" hidden><button type="button" data-view="work" aria-pressed="true">EXPERIENCE</button><button type="button" data-view="education" aria-pressed="false">EDUCATION</button></div>
+    <div id="detail"></div><div class="ticket-foot"><span>VALERIE DENG / PROFILE</span><span class="barcode" aria-hidden="true"></span></div>
+  </section>
+</div>
+<script>
+'use strict';
+// Resume content is centralized here for easy editing.
+const CONTENT = {
+  '01': {title:'WORK EXPERIENCE',subtitle:'Professional Journey / Impact & Growth',kind:'work',
+    summary:'Data Engineer with 3+ years of experience building production data pipelines, cloud migration frameworks, and large-scale orchestration systems on GCP. Experience includes infrastructure cost savings exceeding $5M, pipeline reliability, data platform tooling, and automation across BigQuery, Dataproc, and Apache Airflow.',
+    items:[
+      {name:'Yahoo Inc. — Data Engineer',time:'Nov 2023 – Present',desc:'Los Angeles, CA',bullets:[
+        'Built an Airflow preprocessing DAG plugin for batch and streaming standards, including schema validation, manifests, partition and backfill handling, and consistent logging and alerts. Integration with DAG templates and CI checks saved 8,000+ manual hours.',
+        'Migrated legacy Pig and Hive pipelines to PySpark on Google Cloud Dataproc, reducing annualized compute costs by $820K (99.7%). Automated schema and referential-integrity checks across 64 production tables for a zero-defect migration.',
+        'Built a Dataproc cluster teardown plugin that propagated failures deterministically through Airflow workflows, eliminating false-success DAG states and increasing incident detection and response from 70% to 100%.',
+        'Created an enterprise data validation framework adopted across 300+ production tables with 25+ configurable quality rules, audit trails, and automated alerts to data stewards.',
+        'Led migration from on-premises Hadoop to GCP with an automated framework that provisioned 1,000+ Airflow DAGs and processed up to 50 TB/day of mail events; source-to-target comparisons verified correctness and SLA compliance.',
+        'Built and operated a BigQuery and Looker analytics pipeline for 20+ downstream consumers, including enterprise telecom clients, with ownership of SLAs and data contracts for ~200 MB/week external feeds.',
+        'Designed autoscaling-aware Dataproc orchestration to provision and retire clusters by workload, reducing $130K+ in monthly idle infrastructure costs.',
+        'Built partition-aware BigQuery tables and authorized views, automated with Terraform and CI/CD, to control cross-team access and reduce query scan volume, cost, and latency.'
+      ]},
+      {name:'Zscaler Inc. — Data Scientist',time:'May 2022 – Aug 2022',desc:'Los Angeles, CA',bullets:[
+        'Built an upsell prediction pipeline in Python and BigQuery, joining logs and CRM data into feature tables and training LightGBM and CatBoost models with SHAP explanations.',
+        'Deployed daily batch scoring to production; improved accuracy from 56% to 75% and identified revenue drivers associated with 300K in incremental sales.'
+      ]},
+      {name:'Qilin Technologies — AI Engineer',time:'Jan 2021 – Apr 2021',desc:'Beijing',bullets:[
+        'Built Python Flask APIs to select and combine human skeleton and contour keypoints for real-time scoliosis detection queries.',
+        'Worked with a medical rehabilitation specialist on a pose-based scoliosis detection approach; implemented angle checks and body-segment proportion analysis.',
+        'Built a React and JavaScript tutorial page and coordinated monthly unit and end-to-end testing of eight app functions before feature launches.'
+      ]},
+      {name:'UBC R&D — AI Engineer & AI Assistant',time:'Jan 2020 – Aug 2020',desc:'Vancouver, BC',bullets:[
+        'Implemented Knowledge Distillation inference scripts using Keras and applied TensorFlow with Horovod distributed training, reducing training time by one third.',
+        'Experimented with rotation-invariant features and Kalman filters for model fine-tuning, and built a pipeline to adapt OpenPose output to D-chip hardware.',
+        'Used PostgreSQL for spatial queries, convex hull computation, and nearest-neighbor lookups.'
+      ]}
+    ],
+    education:[
+      {name:'University of Southern California',degree:'M.S. Computer Science · GPA 3.9',time:'Aug 2021 – May 2023',place:'Los Angeles, CA'},
+      {name:'University of British Columbia',degree:'B.S. Computer Science',time:'Sep 2016 – May 2021',place:'Vancouver, Canada'}
+    ]},
+  '02': {title:'GITHUB PROJECT',subtitle:'Open Source / Code & Contributions',kind:'projects',
+    items:[
+      {name:'Firebase Top Song',desc:'Python app using Firebase to track and manage top song data in real time.',tags:['Python','Firebase'],url:'https://github.com/yuedeng1998/Firebase_TopSong'},
+      {name:'Crawler Engine',desc:'Java web crawler for automated data collection and indexing.',tags:['Java'],url:'https://github.com/yuedeng1998/Crawler-Engine'},
+      {name:'Food Logger',desc:'Web app for logging and tracking food consumption with PHP and MySQL.',tags:['PHP','MySQL'],url:'https://github.com/yuedeng1998/Food_logger'},
+      {name:'The Little Prince Game',desc:'C and C++ game with tile-based levels, collectibles, enemy AI, and a health system.',tags:['C','C++'],url:'https://github.com/yuedeng1998/The-little-prince-Video-Game'},
+      {name:'MongoDB Project',desc:'Python project exploring document storage, querying, and data manipulation with MongoDB.',tags:['Python','MongoDB'],url:'https://github.com/yuedeng1998/MangoDB_Project'}
+    ]},
+  '03': {title:'SKILLS',subtitle:'Tech Stack / Tools & Technologies',kind:'skills',groups:{
+    'Cloud & Infrastructure':['GCP','Dataproc','Cloud Storage','Pub/Sub','Terraform','CI/CD','Screwdriver','AirFactory','Looker'],
+    'Programming & Databases':['Python','SQL','Java','Scala','C','C++','JavaScript','TypeScript','BigQuery','PostgreSQL','MySQL','MongoDB'],
+    'Data Engineering & Processing':['Apache Spark','PySpark','Hadoop','Hive','Apache Airflow','Apache Oozie','Parquet','ORC','Avro'],
+    'Machine Learning & Web':['LightGBM','CatBoost','SHAP','Keras','TensorFlow','Horovod','OpenPose','Flask','React','Firebase','PHP']
+  }},
+  '04': {title:'CONTACT',subtitle:"Let's Connect / Opportunities Ahead",kind:'contact',linkedin:'https://linkedin.com/in/valerie-deng',github:'https://github.com/yuedeng1998',email:'valerieyue9@gmail.com',phone:'+1 (213) 793-0025',phoneHref:'+12137930025',location:'Los Angeles, CA'}
+};
+// Coordinates are percentages of the 1672 × 941 source images.
+const CONFIG = {
+  fadeMs:450, blurPx:3, scale:1.012, hoverDelayMs:60, introExitMs:800, modalMs:400,
+  introMaxMs:9000, decodeMaxMs:2500, playPromptMs:1800,
+  hotspots:{'01':[2.4,4.8,22.7,27.6,-8],'02':[26.9,2.1,23,28.2,-8],'03':[52,2.7,23,28.2,-8],'04':[76.6,3.2,22.4,28.2,-8]},
+  // Optional data:video/mp4;base64,... sources; keys use start_end, e.g. 00_01.
+  transitionVideos:{}
+};
+const $=s=>document.querySelector(s), frames=[...document.querySelectorAll('.frame')], hotspots=[...document.querySelectorAll('.hotspot')];
+const stage=$('#stage'), intro=$('#intro'), video=$('#introVideo'), motion=$('#motion'), resume=$('#resume');
+const overlay=$('#modalOverlay'), ticket=$('#ticket');
+let current='00', desired='00', modalState=null, lastFocus=null, hoverTimer=0, returnTimer=0, motionToken=0, introFinished=false;
+const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+for(const b of hotspots){const [x,y,w,h,angle]=CONFIG.hotspots[b.dataset.state];Object.assign(b.style,{left:x+'%',top:y+'%',width:w+'%',height:h+'%',transform:`rotate(${angle}deg)`});}
+// Continue each animation from its computed state during rapid pointer movement.
+function dissolveTo(id){
+  desired=id;
+  const duration=reduced.matches?1:CONFIG.fadeMs;
+  for(const frame of frames){
+    const target=frame.dataset.state===id?1:0;
+    const opacity=Number(getComputedStyle(frame).opacity);
+    frame.getAnimations().forEach(a=>a.cancel());
+    frame.style.opacity=String(opacity);
+    if(Math.abs(target-opacity)<.002){frame.style.opacity=String(target);continue;}
+    const animation=frame.animate([{opacity,filter:'blur(0px)',transform:'scale(1)'},{opacity:(opacity+target)/2,filter:`blur(${CONFIG.blurPx}px)`,transform:`scale(${target?CONFIG.scale:1})`,offset:.46},{opacity:target,filter:'blur(0px)',transform:'scale(1)'}],{duration,easing:'cubic-bezier(.22,1,.36,1)',fill:'forwards'});
+    animation.onfinish=()=>{frame.style.opacity=String(target);animation.cancel();};
+  }
+  current=id;
+}
+// Optional transition clips play above the stills, then settle on the target frame.
+async function transitionTo(stateId){
+  if(!['00','01','02','03','04'].includes(stateId))return;
+  const token=++motionToken, source=CONFIG.transitionVideos[`${current}_${stateId}`];
+  if(motion.style.display==='block'){motion.pause();motion.style.display='none';motion.removeAttribute('src');}
+  if(!source||reduced.matches){dissolveTo(stateId);return;}
+  const from=current;desired=stateId;motion.src=source;motion.style.display='block';motion.currentTime=0;
+  try{
+    await new Promise((resolve,reject)=>{motion.onended=resolve;motion.onerror=reject;motion.play().catch(reject);});
+    if(token===motionToken){dissolveTo(stateId);motion.style.display='none';motion.removeAttribute('src');}
+  }catch(e){if(token===motionToken){motion.style.display='none';motion.removeAttribute('src');current=from;dissolveTo(stateId);}}
+}
+window.transitionTo=transitionTo; // Public hook for future transitions.
+function queueHover(id){clearTimeout(hoverTimer);clearTimeout(returnTimer);if(modalState)return;hoverTimer=setTimeout(()=>transitionTo(id),CONFIG.hoverDelayMs);}
+function queueDefault(){clearTimeout(hoverTimer);clearTimeout(returnTimer);if(modalState)return;returnTimer=setTimeout(()=>{if(!stage.querySelector('.hotspot:hover')&&!stage.querySelector('.hotspot:focus-visible'))transitionTo('00');},CONFIG.hoverDelayMs);}
+for(const b of hotspots){
+  b.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse'||e.pointerType==='pen')queueHover(b.dataset.state)});
+  b.addEventListener('pointerleave',queueDefault);
+  b.addEventListener('focus',()=>queueHover(b.dataset.state));
+  b.addEventListener('blur',queueDefault);
+  b.addEventListener('click',()=>openModal(b.dataset.state,b));
+}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function renderEducation(items){
+  return items.map(item=>`<article class="entry"><h3>${esc(item.name)}</h3><p>${esc(item.degree)}</p><p class="meta">${esc(item.time)} / ${esc(item.place)}</p></article>`).join('');
+}
+function renderContent(data){
+  if(data.kind==='work')return `<section class="entry"><h3>PROFILE</h3><p>${esc(data.summary)}</p></section>`+
+    data.items.map(item=>`<article class="entry"><h3>${esc(item.name)}</h3><p class="meta">${esc(item.time)} / ${esc(item.desc)}</p><ul>${item.bullets.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></article>`).join('');
+  if(data.kind==='projects')return data.items.map(item=>`<article class="entry"><h3>${esc(item.name)}</h3><p>${esc(item.desc)}</p><div class="chips">${item.tags.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div><a class="action" href="${esc(item.url)}" target="_blank" rel="noopener noreferrer">VIEW REPOSITORY ↗</a></article>`).join('');
+  if(data.kind==='skills')return Object.entries(data.groups).map(([group,tags])=>`<section class="entry"><h3>${esc(group)}</h3><div class="chips">${tags.map(t=>`<span class="chip">${esc(t)}</span>`).join('')}</div></section>`).join('');
+  return `<div class="entry"><h3>PHONE</h3><p class="contact-line"><a href="tel:${esc(data.phoneHref)}">${esc(data.phone)}</a></p></div><div class="entry"><h3>EMAIL</h3><p class="contact-line"><a href="mailto:${esc(data.email)}">${esc(data.email)}</a><button id="copyEmail" class="action" type="button">Copy</button></p></div><div class="entry"><h3>GITHUB</h3><p class="contact-line"><a href="${esc(data.github)}" target="_blank" rel="noopener noreferrer">github.com/yuedeng1998 ↗</a></p></div><div class="entry"><h3>LINKEDIN</h3><p class="contact-line"><a href="${esc(data.linkedin)}" target="_blank" rel="noopener noreferrer">linkedin.com/in/valerie-deng ↗</a></p></div><div class="entry"><h3>LOCATION</h3><p>${esc(data.location)}</p></div>`;
+}
+function showCareerView(view){
+  if(modalState!=='01')return;
+  const work=view==='work', data=CONTENT['01'];
+  $('#modalTitle').textContent=work?data.title:'EDUCATION';
+  $('#modalSubtitle').textContent=work?data.subtitle:'Academic Background / Foundations';
+  $('#detail').innerHTML=work?renderContent(data):renderEducation(data.education);
+  $('#detail').scrollTop=0;
+  for(const button of $('#detailTabs').querySelectorAll('button'))button.setAttribute('aria-pressed',String(button.dataset.view===view));
+}
+$('#detailTabs').addEventListener('click',e=>{const button=e.target.closest('button[data-view]');if(button)showCareerView(button.dataset.view)});
+function flip(origin,reverse=false){
+  const a=origin.getBoundingClientRect(),b=ticket.getBoundingClientRect();
+  const dx=(a.left+a.width/2)-(b.left+b.width/2),dy=(a.top+a.height/2)-(b.top+b.height/2);
+  const sx=Math.max(.12,a.width/b.width),sy=Math.max(.12,a.height/b.height);
+  return ticket.animate(reverse?[{transform:'none',opacity:1},{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`,opacity:.35}]:[{transform:`translate(${dx}px,${dy}px) scale(${sx},${sy})`,opacity:.35},{transform:'none',opacity:1}],{duration:reduced.matches?1:CONFIG.modalMs,easing:'cubic-bezier(.22,1,.36,1)',fill:'both'});
+}
+function openModal(id,origin){
+  clearTimeout(hoverTimer);clearTimeout(returnTimer);if(modalState)return;
+  transitionTo(id);modalState=id;lastFocus=document.activeElement;
+  const data=CONTENT[id];$('#modalNo').textContent=id;
+  $('#detailTabs').hidden=id!=='01';
+  if(id==='01')showCareerView('work');
+  else{$('#modalTitle').textContent=data.title;$('#modalSubtitle').textContent=data.subtitle;$('#detail').innerHTML=renderContent(data);$('#detail').scrollTop=0;}
+  overlay.classList.add('open');overlay.setAttribute('aria-hidden','false');resume.setAttribute('inert','');intro.setAttribute('inert','');
+  flip(origin);$('#close').focus({preventScroll:true});
+  if(id==='04')$('#copyEmail').addEventListener('click',async e=>{try{await navigator.clipboard.writeText(data.email)}catch{const input=document.createElement('textarea');input.value=data.email;document.body.append(input);input.select();document.execCommand('copy');input.remove()}e.currentTarget.textContent='Copied';});
+}
+async function closeModal(){
+  if(!modalState)return;
+  const id=modalState,origin=stage.querySelector(`[data-state="${id}"].hotspot`);modalState=null;
+  try{await flip(origin,true).finished}catch{}
+  overlay.classList.remove('open');overlay.setAttribute('aria-hidden','true');resume.removeAttribute('inert');intro.removeAttribute('inert');
+  (lastFocus?.isConnected?lastFocus:origin).focus({preventScroll:true});
+  if(!origin.matches(':hover'))queueDefault();
+}
+$('#close').addEventListener('click',closeModal);overlay.addEventListener('pointerdown',e=>{if(e.target===overlay)closeModal()});
+document.addEventListener('keydown',e=>{
+  if(e.key.toLowerCase()==='d'&&!e.repeat&&!modalState)document.body.classList.toggle('debug');
+  if(e.key==='Escape'&&modalState){e.preventDefault();closeModal()}
+  if(e.key==='Tab'&&modalState){const focusable=[...ticket.querySelectorAll('button:not([disabled]),a[href]')].filter(el=>el.getClientRects().length);const first=focusable[0],last=focusable.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+});
+// Decode all frames during the intro to avoid a flash on the first transition.
+const imagesReady=Promise.all(frames.map(async img=>{try{if(!img.complete)await new Promise((resolve,reject)=>{img.addEventListener('load',resolve,{once:true});img.addEventListener('error',reject,{once:true})});if(img.decode)await img.decode()}catch(e){console.warn('Image failed to load',img.dataset.state,e)}}));
+const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+async function finishIntro(){
+  if(introFinished)return;introFinished=true;video.pause();
+  // Bound decode waiting so the skip control can always finish.
+  await Promise.race([imagesReady,delay(CONFIG.decodeMaxMs)]);
+  resume.classList.add('ready');resume.removeAttribute('aria-hidden');intro.classList.add('leave');
+  setTimeout(()=>{intro.hidden=true;intro.setAttribute('inert','')},reduced.matches?0:CONFIG.introExitMs);
+}
+$('#skip').addEventListener('click',finishIntro);video.addEventListener('ended',finishIntro);
+video.addEventListener('error',()=>{if(!introFinished)$('#enter').style.display='block'});
+video.addEventListener('playing',()=>{$('#enter').style.display='none'});
+$('#enter').addEventListener('click',async()=>{if(video.error){finishIntro();return}$('#enter').style.display='none';try{await video.play()}catch{finishIntro()}});
+// Autoplay can reject or remain pending; the button and timeout provide exits.
+setTimeout(()=>{if(!introFinished&&video.paused)$('#enter').style.display='block'},CONFIG.playPromptMs);
+setTimeout(finishIntro,CONFIG.introMaxMs);
+video.play().catch(()=>{if(!introFinished)$('#enter').style.display='block'});
+</script>
+</body>
+</html>

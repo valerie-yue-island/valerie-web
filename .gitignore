@@ -1,0 +1,8 @@
+.DS_Store
+
+# Old drafts / working copy with its own git history — not part of this repo
+/prev/
+
+# Raw source images/video used to produce assets/ — not needed to serve the site
+/photo/
+/video/
